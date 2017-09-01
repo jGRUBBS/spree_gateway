@@ -26,11 +26,13 @@ module Spree
       provider.capture(money, response_code, gateway_options)
     end
 
-    def credit(money, creditcard, response_code, gateway_options)
-      provider.refund(money, response_code, {})
+    def credit(money, creditcard, gateway_options)
+      provider.refund(money, creditcard, {
+        idempotency_key: SecureRandom.uuid
+      })
     end
 
-    def void(response_code, creditcard, gateway_options)
+    def void(response_code, creditcard)
       provider.void(response_code, {})
     end
 
